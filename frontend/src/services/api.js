@@ -7,7 +7,7 @@ export const apiService = {
 
   // Add Company
   addCompany: async (companyData) => {
-    const response = await fetch(`${BASE_URL}/companies`, {
+    const response = await fetch(`${BASE_URL}/companies/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
