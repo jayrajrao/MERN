@@ -1,5 +1,5 @@
 // Yahan hum apna base URL set kar rahe hain
-const BASE_URL = "http://localhost:5000/api";
+const BASE_URL = "https://mern-lwqr.onrender.com/api";
 
 export const apiService = {
   // ================= COMPANY APIs =================
