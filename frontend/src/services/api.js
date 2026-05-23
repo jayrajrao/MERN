@@ -1,10 +1,11 @@
-// Yahan hum apna base URL set kar rahe hain
+// Base URL
 const BASE_URL = "https://mern-lwqr.onrender.com/api";
 
 export const apiService = {
+
   // ================= COMPANY APIs =================
 
-  // 1. Add a new company
+  // Add Company
   addCompany: async (companyData) => {
     const response = await fetch(`${BASE_URL}/companies`, {
       method: "POST",
@@ -13,33 +14,69 @@ export const apiService = {
       },
       body: JSON.stringify(companyData),
     });
-    if (!response.ok) throw new Error("Failed to add company");
-    return response.json();
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || "Failed to add company");
+    }
+
+    return data;
   },
 
-  // 2. Get all companies (with optional search and city filters)
+
+
+  // Get All Companies
   getCompanies: async (search = "", city = "") => {
-    let url = `${BASE_URL}/companies?`;
-    if (search) url += `search=${search}&`;
-    if (city) url += `city=${city}`;
 
-    const response = await fetch(url);
-    if (!response.ok) throw new Error("Failed to fetch companies");
-    return response.json();
+    const params = new URLSearchParams();
+
+    if (search) params.append("search", search);
+
+    if (city) params.append("city", city);
+
+    const response = await fetch(
+      `${BASE_URL}/companies?${params.toString()}`
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || "Failed to fetch companies");
+    }
+
+    return data;
   },
 
-  // 3. Get single company details (includes aggregation for average rating)
+
+
+  // Get Single Company
   getSingleCompany: async (id) => {
-    const response = await fetch(`${BASE_URL}/companies/${id}`);
-    if (!response.ok) throw new Error("Failed to fetch company details");
-    return response.json();
+
+    const response = await fetch(
+      `${BASE_URL}/companies/${id}`
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(
+        data.message || "Failed to fetch company details"
+      );
+    }
+
+    return data;
   },
+
 
 
   // ================= REVIEW APIs =================
 
-  // 4. Add a new review
+
+
+  // Add Review
   addReview: async (reviewData) => {
+
     const response = await fetch(`${BASE_URL}/reviews`, {
       method: "POST",
       headers: {
@@ -47,28 +84,59 @@ export const apiService = {
       },
       body: JSON.stringify(reviewData),
     });
-    if (!response.ok) throw new Error("Failed to add review");
-    return response.json();
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || "Failed to add review");
+    }
+
+    return data;
   },
 
-  // 5. Get reviews for a specific company (with optional sorting)
-  getCompanyReviews: async (companyId, sortBy = "") => {
+
+
+  // Get Company Reviews
+  getCompanyReviews: async (
+    companyId,
+    sortBy = ""
+  ) => {
+
     let url = `${BASE_URL}/reviews/${companyId}`;
-    if (sortBy) url += `?sortBy=${sortBy}`; // Frontend se sort filter bhejne ke liye
+
+    if (sortBy) {
+      url += `?sortBy=${sortBy}`;
+    }
 
     const response = await fetch(url);
-    if (!response.ok) throw new Error("Failed to fetch reviews");
-    return response.json();
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || "Failed to fetch reviews");
+    }
+
+    return data;
   },
 
-  // 6. Like a review
-// services/api.js mein is function ko isse replace kar do
+
+
+  // Like Review
   likeReview: async (reviewId) => {
-    // TUMHARE BACKEND KE HISAAB SE URL UPDATE KIYA HAI (PATCH aur /like/:id)
-    const response = await fetch(`${BASE_URL}/reviews/like/${reviewId}`, {
-      method: "PATCH",
-    });
-    if (!response.ok) throw new Error("Failed to like review");
-    return response.json();
+
+    const response = await fetch(
+      `${BASE_URL}/reviews/like/${reviewId}`,
+      {
+        method: "PATCH",
+      }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || "Failed to like review");
+    }
+
+    return data;
   },
 };
