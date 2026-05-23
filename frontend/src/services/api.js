@@ -1,4 +1,3 @@
-// Base URL
 const BASE_URL = "https://mern-lwqr.onrender.com/api";
 
 export const apiService = {
@@ -7,7 +6,8 @@ export const apiService = {
 
   // Add Company
   addCompany: async (companyData) => {
-    const response = await fetch(`${BASE_URL}/companies/`, {
+    // FIX: Removed the trailing slash after companies
+    const response = await fetch(`${BASE_URL}/companies`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -24,15 +24,11 @@ export const apiService = {
     return data;
   },
 
-
-
   // Get All Companies
   getCompanies: async (search = "", city = "") => {
-
     const params = new URLSearchParams();
 
     if (search) params.append("search", search);
-
     if (city) params.append("city", city);
 
     const response = await fetch(
@@ -48,11 +44,8 @@ export const apiService = {
     return data;
   },
 
-
-
   // Get Single Company
   getSingleCompany: async (id) => {
-
     const response = await fetch(
       `${BASE_URL}/companies/${id}`
     );
@@ -68,15 +61,10 @@ export const apiService = {
     return data;
   },
 
-
-
   // ================= REVIEW APIs =================
-
-
 
   // Add Review
   addReview: async (reviewData) => {
-
     const response = await fetch(`${BASE_URL}/reviews`, {
       method: "POST",
       headers: {
@@ -94,14 +82,8 @@ export const apiService = {
     return data;
   },
 
-
-
   // Get Company Reviews
-  getCompanyReviews: async (
-    companyId,
-    sortBy = ""
-  ) => {
-
+  getCompanyReviews: async (companyId, sortBy = "") => {
     let url = `${BASE_URL}/reviews/${companyId}`;
 
     if (sortBy) {
@@ -119,11 +101,8 @@ export const apiService = {
     return data;
   },
 
-
-
   // Like Review
   likeReview: async (reviewId) => {
-
     const response = await fetch(
       `${BASE_URL}/reviews/like/${reviewId}`,
       {
